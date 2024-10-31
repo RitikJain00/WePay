@@ -1,6 +1,29 @@
+import axios from "axios";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 
 const SignIn = () => {
+  const userName = useRef("");
+  const password = useRef("");
+
+  const handleClick = async () => {
+    try {
+      const response = await axios({
+        method: "post",
+        url: "http://localhost:3000/user/signin",
+        data: {
+          userName: userName.current.value,
+          password: password.current.value,
+        },
+      });
+
+      localStorage.setItem("token", response.data.token);
+      userName.current.value = "";
+      password.current.value = "";
+    } catch (error) {
+      console.log("Unsuccessfull SignIn", error);
+    }
+  };
   return (
     <div className="font-[sans-serif] max-w-4xl flex items-center mx-auto md:h-screen p-4">
       <div className="grid md:grid-cols-3 items-center shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-xl overflow-hidden">
@@ -40,6 +63,7 @@ const SignIn = () => {
                 <input
                   name="email"
                   type="email"
+                  ref={userName}
                   required
                   className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md outline-blue-500"
                   placeholder="ritik123@gmail.com"
@@ -84,6 +108,7 @@ const SignIn = () => {
                 <input
                   name="password"
                   type="password"
+                  ref={password}
                   required
                   className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md outline-blue-500"
                   placeholder="123456"
@@ -122,6 +147,7 @@ const SignIn = () => {
           <div className="!mt-12">
             <button
               type="button"
+              onClick={handleClick}
               className="w-full py-3 px-4 tracking-wider text-sm rounded-md text-white bg-gray-700 hover:bg-gray-800 focus:outline-none"
             >
               Sign In

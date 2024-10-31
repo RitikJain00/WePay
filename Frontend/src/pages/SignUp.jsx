@@ -1,5 +1,36 @@
+import { useRef } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 const SignUp = () => {
+  const firstName = useRef("");
+  const lastName = useRef("");
+  const userName = useRef("");
+  const password = useRef("");
+
+  const handleClick = async () => {
+    try {
+      const response = await axios({
+        method: "post",
+        url: "http://localhost:3000/user/signup",
+        data: {
+          firstName: firstName.current.value,
+          lastName: lastName.current.value,
+          userName: userName.current.value,
+          password: password.current.value,
+        },
+      });
+
+      firstName.current.value = "";
+      lastName.current.value = "";
+      userName.current.value = "";
+      password.current.value = "";
+
+      console.log("Signup successful:", response.data);
+    } catch (error) {
+      console.log("SignUp failed", error.response?.data || error.message);
+    }
+  };
+
   return (
     <div className="font-[sans-serif] max-w-4xl flex items-center mx-auto md:h-screen p-4">
       <div className="grid md:grid-cols-3 items-center shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-xl overflow-hidden">
@@ -42,6 +73,7 @@ const SignUp = () => {
                 <input
                   name="name"
                   type="text"
+                  ref={firstName}
                   required
                   className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md outline-blue-500"
                   placeholder="Ritik"
@@ -70,6 +102,7 @@ const SignUp = () => {
                 <input
                   name="name"
                   type="text"
+                  ref={lastName}
                   required
                   className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md outline-blue-500"
                   placeholder="Jain"
@@ -98,6 +131,7 @@ const SignUp = () => {
                 <input
                   name="email"
                   type="email"
+                  ref={userName}
                   required
                   className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md outline-blue-500"
                   placeholder="ritik123@gmail.com"
@@ -142,6 +176,7 @@ const SignUp = () => {
                 <input
                   name="password"
                   type="password"
+                  ref={password}
                   required
                   className="text-gray-800 bg-white border border-gray-300 w-full text-sm px-4 py-2.5 rounded-md outline-blue-500"
                   placeholder="123456"
@@ -186,6 +221,7 @@ const SignUp = () => {
           <div className="!mt-12">
             <button
               type="button"
+              onClick={handleClick}
               className="w-full py-3 px-4 tracking-wider text-sm rounded-md text-white bg-gray-700 hover:bg-gray-800 focus:outline-none"
             >
               Create an account

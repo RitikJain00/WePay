@@ -6,7 +6,7 @@ const SendMoney = () => {
 
         <div className="pl-4 pt-2 flex ml-4">
           <img
-            class="w-12 h-12 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
+            className="w-12 h-12 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
             src="https://readymadeui.com/team-1.webp"
             alt="Bordered avatar"
           />
